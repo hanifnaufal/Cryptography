@@ -3,14 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package RC4GUI;
+
+import RC4.RC4;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Iterator;
+import java.util.LinkedList;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author fariz.ikhwantri
  */
 public class RC4StreamCipher extends javax.swing.JFrame {
+
+    public File plaintextFile;
+    public File keyFile;
+    public RC4 rc4;
 
     /**
      * Creates new form RC4StreamChipher
@@ -30,33 +44,14 @@ public class RC4StreamCipher extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         EncryptionPanel = new javax.swing.JPanel();
-        Plaintext = new javax.swing.JFormattedTextField();
-        KeyInputText = new javax.swing.JFormattedTextField();
         EncryptionButton = new javax.swing.JButton();
         PlaintextLabel = new javax.swing.JLabel();
         KeyLabel = new javax.swing.JLabel();
+        KeyButton = new javax.swing.JButton();
+        plaintextButton = new javax.swing.JButton();
         DecryptionPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        Plaintext.setText("Input a file....");
-        Plaintext.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                PlaintextMouseClicked(evt);
-            }
-        });
-        Plaintext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PlaintextActionPerformed(evt);
-            }
-        });
-
-        KeyInputText.setText("Input a file.....");
-        KeyInputText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                KeyInputTextActionPerformed(evt);
-            }
-        });
 
         EncryptionButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         EncryptionButton.setText("Encrypt");
@@ -68,26 +63,46 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             }
         });
 
-        PlaintextLabel.setText("Plaintext");
+        PlaintextLabel.setText("Input  Plaintext file ");
+        PlaintextLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        KeyLabel.setText("Key");
+        KeyLabel.setText("Input Key file");
+        KeyLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        KeyButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
+        KeyButton.setText("Input Key");
+        KeyButton.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        KeyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KeyButtonActionPerformed(evt);
+            }
+        });
+
+        plaintextButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
+        plaintextButton.setText("Input Plaintext");
+        plaintextButton.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        plaintextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plaintextButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout EncryptionPanelLayout = new javax.swing.GroupLayout(EncryptionPanel);
         EncryptionPanel.setLayout(EncryptionPanelLayout);
         EncryptionPanelLayout.setHorizontalGroup(
             EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EncryptionPanelLayout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(52, Short.MAX_VALUE)
                 .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PlaintextLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(KeyLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(KeyInputText, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EncryptionButton)
                     .addGroup(EncryptionPanelLayout.createSequentialGroup()
-                        .addComponent(Plaintext, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(EncryptionButton)))
+                        .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(PlaintextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(KeyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(plaintextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(KeyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(77, 77, 77))
         );
         EncryptionPanelLayout.setVerticalGroup(
@@ -95,14 +110,15 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             .addGroup(EncryptionPanelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Plaintext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EncryptionButton)
-                    .addComponent(PlaintextLabel))
+                    .addComponent(PlaintextLabel)
+                    .addComponent(plaintextButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(KeyInputText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(KeyLabel))
-                .addContainerGap(203, Short.MAX_VALUE))
+                    .addComponent(KeyLabel)
+                    .addComponent(KeyButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(EncryptionButton)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("RC4 Encryption", EncryptionPanel);
@@ -115,7 +131,7 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         );
         DecryptionPanelLayout.setVerticalGroup(
             DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+            .addGap(0, 242, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("RC4 Decryption", DecryptionPanel);
@@ -128,74 +144,135 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void PlaintextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlaintextActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_PlaintextActionPerformed
-
-    private void PlaintextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PlaintextMouseClicked
-        // TODO add your handling code here:
-        java.awt.FileDialog plainText = new java.awt.FileDialog(this, "Plaintext path here");
-        String path = plainText.getFile();
-    }//GEN-LAST:event_PlaintextMouseClicked
-
-    private void KeyInputTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeyInputTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_KeyInputTextActionPerformed
-
     private void EncryptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncryptionButtonActionPerformed
         // TODO add your handling code here:
+        if (plaintextFile == null && keyFile == null) {
+            JOptionPane.showMessageDialog(this, "File plaintext atau File key belum lengkap", "Input belum lengkap", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        LinkedList<Byte> plainByte = new LinkedList<Byte>();
+        LinkedList<Byte> keyByte = new LinkedList<Byte>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(plaintextFile));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                for (int i = 0; i < line.length(); i++) {
+                    plainByte.add((byte) line.charAt(i));
+                }
+            }
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(this, "Ada yang salah dengan input Plaintext", "Input Salah", JOptionPane.ERROR_MESSAGE);
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(keyFile));
+            String line ;
+            while ((line = reader.readLine()) != null) {
+                for (int i = 0; i < line.length(); i++) {
+                    keyByte.add((byte) line.charAt(i));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Ada yang salah dengan input key", "Input Salah", JOptionPane.ERROR_MESSAGE);
+        }
+        if (keyByte.size() < 16 || keyByte.size() > 256) {
+            
+            JOptionPane.showMessageDialog(this, "Key harus memiliki panjang 16 - 256 byte", "Input Salah", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        Iterator<Byte> itr = keyByte.iterator();
+        byte result[] = new byte[keyByte.size()];
+        int i = 0;
+        while(itr.hasNext()){
+            result[i++] = itr.next();
+        }
+        rc4 = new RC4(result);
+        LinkedList<Byte> cipherByte = rc4.encrypt(plainByte);
+        RC4 rc4Decrypt = new RC4(result);
+        LinkedList<Byte> plainByte2 = rc4Decrypt.decrypt(cipherByte);
+        Iterator<Byte> itrPl = plainByte.iterator();
+        Iterator<Byte> itrPl2 = plainByte2.iterator();
+        while(itrPl.hasNext() && itrPl2.hasNext()){
+            if(!itrPl.next().equals(itrPl2.next())){
+                System.out.println("aduh salah");   
+            }
+        }
+        
     }//GEN-LAST:event_EncryptionButtonActionPerformed
+
+    private void plaintextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plaintextButtonActionPerformed
+        JFileChooser fc = new JFileChooser();
+        int ret = fc.showOpenDialog(null);
+
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
+            fc.setFileFilter(filter);
+            File file = fc.getSelectedFile();
+            if (file == null) {
+                JOptionPane.showMessageDialog(this, "Tipe file harus berupa text file (.txt)", "Input Salah", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String filename = file.getAbsolutePath();
+                PlaintextLabel.setText(filename);
+                this.plaintextFile = file;
+            }
+        }
+    }//GEN-LAST:event_plaintextButtonActionPerformed
+
+    private void KeyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeyButtonActionPerformed
+        JFileChooser fc = new JFileChooser();
+        int ret = fc.showOpenDialog(null);
+
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            FileFilter filter = new FileNameExtensionFilter("Text File", "txt");
+            fc.setFileFilter(filter);
+            File file = fc.getSelectedFile();
+            if (file == null) {
+                JOptionPane.showMessageDialog(this, "Tipe file harus berupa text file (.txt)", "Input Salah", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String filename = file.getAbsolutePath();
+                KeyLabel.setText(filename);
+            }
+        }
+    }//GEN-LAST:event_KeyButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RC4StreamCipher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RC4StreamCipher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RC4StreamCipher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RC4StreamCipher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RC4StreamCipher().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {        
+//        
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+//                    e.printStackTrace();
+//                }
+//                new RC4StreamCipher().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DecryptionPanel;
     private javax.swing.JButton EncryptionButton;
     private javax.swing.JPanel EncryptionPanel;
-    private javax.swing.JFormattedTextField KeyInputText;
+    private javax.swing.JButton KeyButton;
     private javax.swing.JLabel KeyLabel;
-    private javax.swing.JFormattedTextField Plaintext;
     private javax.swing.JLabel PlaintextLabel;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton plaintextButton;
     // End of variables declaration//GEN-END:variables
 }
