@@ -5,8 +5,9 @@
  */
 package RC4;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 /**
  *
@@ -19,6 +20,7 @@ public class RC4 {
     private int keylen;
 
     public RC4(byte[] key) {
+
         keylen = key.length;
         for (int i = 0; i < 256; i++) {
             S[i] = (byte) i;
@@ -31,14 +33,13 @@ public class RC4 {
             S[j] ^= S[i];
             S[i] ^= S[j];
         }
+
     }
-    
-    public LinkedList<Byte> encrypt(LinkedList<Byte> plaintext) {
-        LinkedList<Byte> ciphertext = new LinkedList<Byte>();
+
+    public byte[] encrypt(byte[] plaintext) {
+        byte[] ciphertext = new byte[plaintext.length];
         int i = 0, j = 0, k, t;
-        Iterator<Byte> itr = plaintext.iterator();
-        while (itr.hasNext()) {
-            byte plainTemp = itr.next();
+        for (int counter = 0; counter < plaintext.length; counter++) {
             i = (i + 1) & 0xFF;
             j = (j + S[i]) & 0xFF;
             S[i] ^= S[j];
@@ -46,12 +47,12 @@ public class RC4 {
             S[i] ^= S[j];
             t = (S[i] + S[j]) & 0xFF;
             k = S[t];
-            ciphertext.add((byte) (plainTemp ^ k));
+            ciphertext[counter] = (byte) (plaintext[counter] ^ k);
         }
         return ciphertext;
     }
 
-    public LinkedList<Byte> decrypt(LinkedList<Byte> ciphertext) {
+    public byte[] decrypt(byte[] ciphertext) {
         return encrypt(ciphertext);
     }
 
@@ -70,5 +71,6 @@ public class RC4 {
     public void setT(byte[] T) {
         this.T = T;
     }
-
+    
+    
 }

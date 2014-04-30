@@ -23,6 +23,5 @@ public class Main {
         }
         RC4StreamCipher frame = new RC4StreamCipher();
         frame.setVisible(true);
-        
     }
 }

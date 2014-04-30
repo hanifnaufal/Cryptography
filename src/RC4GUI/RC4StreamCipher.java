@@ -6,11 +6,12 @@
 package RC4GUI;
 
 import RC4.RC4;
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -158,56 +159,51 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "File plaintext atau File key belum lengkap", "Input belum lengkap", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        LinkedList<Byte> plainByte = new LinkedList<Byte>();
-        LinkedList<Byte> keyByte = new LinkedList<Byte>();
+        byte[] keyByte;
+        byte[] plainByte;
+        //Handle input key
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(plaintextFile));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                for (int i = 0; i < line.length(); i++) {
-                    plainByte.add((byte) line.charAt(i));
+            keyByte = Files.readAllBytes(keyFile.toPath());
+            if (keyByte.length < 16 || keyByte.length > 256) {
+                JOptionPane.showMessageDialog(this, "Key harus berukuran 16 - 256 byte", "Kesalahan panjang input key ", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            plainByte = Files.readAllBytes(plaintextFile.toPath());
+            rc4 = new RC4(keyByte);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("Output1.txt")));
+            byte S[] = rc4.getS();
+            writer.append("Tabel S sesudah permutasi awal\n");
+            for (int i = 0; i < S.length; i++) {
+                writer.append(String.format("%02X ", S[i]));
+                if (i % 10 == 9) {
+                    writer.append("\n");
                 }
             }
-        } catch (Exception e) {
+            writer.append("\n\n");                        
+            byte cipherText[] = rc4.encrypt(plainByte);
+            writer.append("Tabel S sesudah enkripsi\n");
+            S = rc4.getS();
+            for (int i = 0; i < S.length; i++) {
+                writer.append(String.format("%02X ", S[i]));                
+                if (i % 10 == 9) {
+                    writer.append("\n");
+                }
+            }
+            writer.append("\n");
+            writer.flush();
+            writer.close();
             
-            JOptionPane.showMessageDialog(this, "Ada yang salah dengan input Plaintext", "Input Salah", JOptionPane.ERROR_MESSAGE);
+            
+            writer = new BufferedWriter(new FileWriter(new File("Output2.txt")));
+            for (int i = 0; i < cipherText.length; i++) {
+                writer.append((char)cipherText[i]);
+            }
+            writer.flush();
+            writer.close();            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(keyFile));
-            String line ;
-            while ((line = reader.readLine()) != null) {
-                for (int i = 0; i < line.length(); i++) {
-                    keyByte.add((byte) line.charAt(i));
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(this, "Ada yang salah dengan input key", "Input Salah", JOptionPane.ERROR_MESSAGE);
-        }
-        if (keyByte.size() < 16 || keyByte.size() > 256) {
-            
-            JOptionPane.showMessageDialog(this, "Key harus memiliki panjang 16 - 256 byte", "Input Salah", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        Iterator<Byte> itr = keyByte.iterator();
-        byte result[] = new byte[keyByte.size()];
-        int i = 0;
-        while(itr.hasNext()){
-            result[i++] = itr.next();
-        }
-        rc4 = new RC4(result);
-        LinkedList<Byte> cipherByte = rc4.encrypt(plainByte);
-        RC4 rc4Decrypt = new RC4(result);
-        LinkedList<Byte> plainByte2 = rc4Decrypt.decrypt(cipherByte);
-        Iterator<Byte> itrPl = plainByte.iterator();
-        Iterator<Byte> itrPl2 = plainByte2.iterator();
-        while(itrPl.hasNext() && itrPl2.hasNext()){
-            if(!itrPl.next().equals(itrPl2.next())){
-                System.out.println("aduh salah");   
-            }
-        }
-        
     }//GEN-LAST:event_EncryptionButtonActionPerformed
 
     private void plaintextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plaintextButtonActionPerformed
@@ -241,6 +237,7 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             } else {
                 String filename = file.getAbsolutePath();
                 KeyLabel.setText(filename);
+                this.keyFile = file;
             }
         }
     }//GEN-LAST:event_KeyButtonActionPerformed
