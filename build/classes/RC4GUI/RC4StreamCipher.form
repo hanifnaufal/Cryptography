@@ -55,16 +55,16 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="52" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="EncryptionButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="encryptionButton" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="PlaintextLabel" pref="265" max="32767" attributes="0"/>
-                                  <Component id="KeyLabel" max="32767" attributes="0"/>
+                                  <Component id="KeyEncryptLabel" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="plaintextButton" max="32767" attributes="0"/>
-                                  <Component id="KeyButton" max="32767" attributes="0"/>
+                                  <Component id="KeyEncryptButton" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -82,18 +82,18 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="KeyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="KeyButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="KeyEncryptLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="KeyEncryptButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="EncryptionButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="encryptionButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="133" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="EncryptionButton">
+            <Component class="javax.swing.JButton" name="encryptionButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Comic Sans MS" size="11" style="0"/>
@@ -103,7 +103,7 @@
                 <Property name="name" type="java.lang.String" value="" noResource="true"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EncryptionButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="encryptionButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="PlaintextLabel">
@@ -116,7 +116,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="KeyLabel">
+            <Component class="javax.swing.JLabel" name="KeyEncryptLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Input Key file"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -126,7 +126,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="KeyButton">
+            <Component class="javax.swing.JButton" name="KeyEncryptButton">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Comic Sans MS" size="11" style="0"/>
@@ -139,7 +139,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KeyButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KeyEncryptButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="plaintextButton">
@@ -175,7 +175,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="DecryptButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="decryptionButton" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="CiphertextLabel" pref="250" max="32767" attributes="0"/>
@@ -183,7 +183,7 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="CiphertextButton" max="32767" attributes="0"/>
+                                  <Component id="ciphertextButton" max="32767" attributes="0"/>
                                   <Component id="keyDecryptButton" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -198,7 +198,7 @@
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="CiphertextLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="CiphertextButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ciphertextButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -206,7 +206,7 @@
                           <Component id="keyDecryptButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="DecryptButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="decryptionButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="135" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -215,7 +215,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="CiphertextLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ciphertext input file"/>
+                <Property name="text" type="java.lang.String" value="Input ciphertext input file"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -225,7 +225,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="keyDecryptLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="key input file"/>
+                <Property name="text" type="java.lang.String" value="Input Key file"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                     <LineBorder/>
@@ -233,12 +233,12 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="CiphertextButton">
+            <Component class="javax.swing.JButton" name="ciphertextButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Input Ciphertext"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CiphertextButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ciphertextButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="keyDecryptButton">
@@ -249,12 +249,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="keyDecryptButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="DecryptButton">
+            <Component class="javax.swing.JButton" name="decryptionButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Decrypt"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DecryptButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="decryptionButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
