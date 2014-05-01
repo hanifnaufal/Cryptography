@@ -51,6 +51,11 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         KeyButton = new javax.swing.JButton();
         plaintextButton = new javax.swing.JButton();
         DecryptionPanel = new javax.swing.JPanel();
+        CiphertextLabel = new javax.swing.JLabel();
+        keyDecryptLabel = new javax.swing.JLabel();
+        CiphertextButton = new javax.swing.JButton();
+        keyDecryptButton = new javax.swing.JButton();
+        DecryptButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,15 +129,65 @@ public class RC4StreamCipher extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("RC4 Encryption", EncryptionPanel);
 
+        CiphertextLabel.setText("Ciphertext input file");
+        CiphertextLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        keyDecryptLabel.setText("key input file");
+        keyDecryptLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        CiphertextButton.setText("Input Ciphertext");
+        CiphertextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CiphertextButtonActionPerformed(evt);
+            }
+        });
+
+        keyDecryptButton.setText("Input Key");
+        keyDecryptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keyDecryptButtonActionPerformed(evt);
+            }
+        });
+
+        DecryptButton.setText("Decrypt");
+        DecryptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DecryptButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout DecryptionPanelLayout = new javax.swing.GroupLayout(DecryptionPanel);
         DecryptionPanel.setLayout(DecryptionPanelLayout);
         DecryptionPanelLayout.setHorizontalGroup(
             DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 521, Short.MAX_VALUE)
+            .addGroup(DecryptionPanelLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(DecryptButton)
+                    .addGroup(DecryptionPanelLayout.createSequentialGroup()
+                        .addGroup(DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CiphertextLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(keyDecryptLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(CiphertextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(keyDecryptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         DecryptionPanelLayout.setVerticalGroup(
             DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 242, Short.MAX_VALUE)
+            .addGroup(DecryptionPanelLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CiphertextLabel)
+                    .addComponent(CiphertextButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(keyDecryptLabel)
+                    .addComponent(keyDecryptButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DecryptButton)
+                .addContainerGap(135, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("RC4 Decryption", DecryptionPanel);
@@ -199,7 +254,13 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                 writer.append((char)cipherText[i]);
             }
             writer.flush();
-            writer.close();            
+            writer.close();
+            //decrypt
+            RC4 rcdec = new RC4(keyByte);
+            byte [] decrypt = rcdec.decrypt(cipherText);
+            for (int i = 0; i < decrypt.length; i++) {
+                System.out.print((char)decrypt[i]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -242,6 +303,18 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_KeyButtonActionPerformed
 
+    private void CiphertextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CiphertextButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CiphertextButtonActionPerformed
+
+    private void keyDecryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyDecryptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_keyDecryptButtonActionPerformed
+
+    private void DecryptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DecryptButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DecryptButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -263,6 +336,9 @@ public class RC4StreamCipher extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CiphertextButton;
+    private javax.swing.JLabel CiphertextLabel;
+    private javax.swing.JButton DecryptButton;
     private javax.swing.JPanel DecryptionPanel;
     private javax.swing.JButton EncryptionButton;
     private javax.swing.JPanel EncryptionPanel;
@@ -270,6 +346,8 @@ public class RC4StreamCipher extends javax.swing.JFrame {
     private javax.swing.JLabel KeyLabel;
     private javax.swing.JLabel PlaintextLabel;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton keyDecryptButton;
+    private javax.swing.JLabel keyDecryptLabel;
     private javax.swing.JButton plaintextButton;
     // End of variables declaration//GEN-END:variables
 }
