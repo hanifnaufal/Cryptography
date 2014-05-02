@@ -76,10 +76,10 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             }
         });
 
-        PlaintextLabel.setText("Input  Plaintext file ");
+        PlaintextLabel.setText("Input plaintext file");
         PlaintextLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        KeyEncryptLabel.setText("Input Key file");
+        KeyEncryptLabel.setText("Input key file");
         KeyEncryptLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         KeyEncryptButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
@@ -142,10 +142,10 @@ public class RC4StreamCipher extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("RC4 Encryption", EncryptionPanel);
 
-        CiphertextLabel.setText("Input ciphertext input file");
+        CiphertextLabel.setText("Input ciphertext file");
         CiphertextLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        keyDecryptLabel.setText("Input Key file");
+        keyDecryptLabel.setText("Input key file");
         keyDecryptLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         ciphertextButton.setText("Input Ciphertext");
@@ -324,23 +324,21 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
                 RC4StreamCipher window = new RC4StreamCipher();
-                window.setTitle("RC4 GUI");
+                window.setTitle("RC4 Application");
                 window.setVisible(true);
             }
         });
     }
 
     public void Enkripsi(File text, File key){
-        doRC4(text, key, new File("Tabel-S-Enkripsi.txt"), new File("Ciphertext.txt"));
-        JOptionPane.showMessageDialog(this, "Enkripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
+        doRC4(text, key, new File("Tabel-S-Enkripsi.txt"), new File("Ciphertext.txt"),0);
     }
     
     public void Dekripsi(File text, File key){
-        doRC4(text, key, new File("Tabel-S-Dekripsi.txt"), new File("Plaintext.txt"));
-        JOptionPane.showMessageDialog(this, "Dekripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
+        doRC4(text, key, new File("Tabel-S-Dekripsi.txt"), new File("Plaintext.txt"),1);
     }
     
-    public void doRC4(File text, File key, File out1, File out2) {
+    public void doRC4(File text, File key, File out1, File out2,int status) {
         // TODO add your handling code here:
         if (text == null && key == null) {
             JOptionPane.showMessageDialog(this, "Input file belum lengkap", "Input belum lengkap", JOptionPane.ERROR_MESSAGE);
@@ -351,13 +349,11 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         //Handle input key
         try {
             keyByte = Files.readAllBytes(key.toPath());
-//            keyByte = readFile(key);
             if (keyByte.length < 16 || keyByte.length > 256) {
                 JOptionPane.showMessageDialog(this, "Key harus berukuran 16 - 256 byte", "Kesalahan panjang input key ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             plainByte = Files.readAllBytes(text.toPath());
-//            plainByte = readFile(text);
             rc4 = new RC4(keyByte);
             BufferedWriter writer = new BufferedWriter(new FileWriter(out1));
             byte S[] = rc4.getS();
@@ -370,7 +366,12 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             }
             writer.append("\n\n");
             byte cipherText[] = rc4.encrypt(plainByte);
-            writer.append("Tabel S sesudah enkripsi/dekripsi : \n");
+            if(status == 0){
+                writer.append("Tabel S sesudah enkripsi: \n");
+            }else{
+                writer.append("Tabel S sesudah dekripsi : \n");
+            }
+            
             S = rc4.getS();
             for (int i = 0; i < S.length; i++) {
                 writer.append(String.format("%02X ", S[i]));
@@ -387,6 +388,12 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             bos.write(cipherText);
             bos.flush();
             bos.close();
+            
+            if(status == 0){
+                JOptionPane.showMessageDialog(this, "Enkripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Dekripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
