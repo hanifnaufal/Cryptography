@@ -22,7 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author fariz.ikhwantri -1106002330
- * @author muhammad hanif naufal - 1106053653
+ * @author muhammad.hanif.naufal - 1106053653
  */
 public class RC4StreamCipher extends javax.swing.JFrame {
 
