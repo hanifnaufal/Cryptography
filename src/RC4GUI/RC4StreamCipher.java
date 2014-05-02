@@ -55,12 +55,14 @@ public class RC4StreamCipher extends javax.swing.JFrame {
         KeyEncryptLabel = new javax.swing.JLabel();
         KeyEncryptButton = new javax.swing.JButton();
         plaintextButton = new javax.swing.JButton();
+        copyrightLabelEnkripsi = new javax.swing.JLabel();
         DecryptionPanel = new javax.swing.JPanel();
         CiphertextLabel = new javax.swing.JLabel();
         keyDecryptLabel = new javax.swing.JLabel();
         ciphertextButton = new javax.swing.JButton();
         keyDecryptButton = new javax.swing.JButton();
         decryptionButton = new javax.swing.JButton();
+        CopyrightLabelDekripsi = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,6 +100,8 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             }
         });
 
+        copyrightLabelEnkripsi.setText("@author : Fariz Ikhwantri & Muhammad Hanif N");
+
         javax.swing.GroupLayout EncryptionPanelLayout = new javax.swing.GroupLayout(EncryptionPanel);
         EncryptionPanel.setLayout(EncryptionPanelLayout);
         EncryptionPanelLayout.setHorizontalGroup(
@@ -115,6 +119,9 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                             .addComponent(plaintextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(KeyEncryptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(77, 77, 77))
+            .addGroup(EncryptionPanelLayout.createSequentialGroup()
+                .addComponent(copyrightLabelEnkripsi)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         EncryptionPanelLayout.setVerticalGroup(
             EncryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,7 +136,8 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                     .addComponent(KeyEncryptButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(encryptionButton)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                .addComponent(copyrightLabelEnkripsi))
         );
 
         jTabbedPane1.addTab("RC4 Encryption", EncryptionPanel);
@@ -161,6 +169,8 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             }
         });
 
+        CopyrightLabelDekripsi.setText("@author : Fariz Ikhwantri & Muhammad Hanif N");
+
         javax.swing.GroupLayout DecryptionPanelLayout = new javax.swing.GroupLayout(DecryptionPanel);
         DecryptionPanel.setLayout(DecryptionPanelLayout);
         DecryptionPanelLayout.setHorizontalGroup(
@@ -178,6 +188,9 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                             .addComponent(ciphertextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(keyDecryptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(108, Short.MAX_VALUE))
+            .addGroup(DecryptionPanelLayout.createSequentialGroup()
+                .addComponent(CopyrightLabelDekripsi)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         DecryptionPanelLayout.setVerticalGroup(
             DecryptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,7 +205,8 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                     .addComponent(keyDecryptButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(decryptionButton)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addComponent(CopyrightLabelDekripsi))
         );
 
         jTabbedPane1.addTab("RC4 Decryption", DecryptionPanel);
@@ -214,7 +228,7 @@ public class RC4StreamCipher extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void encryptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_encryptionButtonActionPerformed
-        doRC4(plaintextFile, keyEncriptFile, new File("Output1.txt"), new File("Output2.txt"));
+        Enkripsi(plaintextFile, keyEncriptFile);
     }//GEN-LAST:event_encryptionButtonActionPerformed
 
     private void plaintextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plaintextButtonActionPerformed
@@ -291,7 +305,7 @@ public class RC4StreamCipher extends javax.swing.JFrame {
     }//GEN-LAST:event_keyDecryptButtonActionPerformed
 
     private void decryptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decryptionButtonActionPerformed
-        doRC4(ciphertextFile, keyDecryptFile, new File("Output3.txt"), new File("Output4.txt"));
+        Dekripsi(ciphertextFile, keyDecryptFile);
     }//GEN-LAST:event_decryptionButtonActionPerformed
 
     /**
@@ -309,11 +323,23 @@ public class RC4StreamCipher extends javax.swing.JFrame {
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
                     e.printStackTrace();
                 }
-                new RC4StreamCipher().setVisible(true);
+                RC4StreamCipher window = new RC4StreamCipher();
+                window.setTitle("RC4 GUI");
+                window.setVisible(true);
             }
         });
     }
 
+    public void Enkripsi(File text, File key){
+        doRC4(text, key, new File("Tabel-S-Enkripsi.txt"), new File("Ciphertext.txt"));
+        JOptionPane.showMessageDialog(this, "Enkripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void Dekripsi(File text, File key){
+        doRC4(text, key, new File("Tabel-S-Dekripsi.txt"), new File("Plaintext.txt"));
+        JOptionPane.showMessageDialog(this, "Dekripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     public void doRC4(File text, File key, File out1, File out2) {
         // TODO add your handling code here:
         if (text == null && key == null) {
@@ -368,12 +394,14 @@ public class RC4StreamCipher extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CiphertextLabel;
+    private javax.swing.JLabel CopyrightLabelDekripsi;
     private javax.swing.JPanel DecryptionPanel;
     private javax.swing.JPanel EncryptionPanel;
     private javax.swing.JButton KeyEncryptButton;
     private javax.swing.JLabel KeyEncryptLabel;
     private javax.swing.JLabel PlaintextLabel;
     private javax.swing.JButton ciphertextButton;
+    private javax.swing.JLabel copyrightLabelEnkripsi;
     private javax.swing.JButton decryptionButton;
     private javax.swing.JButton encryptionButton;
     private javax.swing.JTabbedPane jTabbedPane1;
