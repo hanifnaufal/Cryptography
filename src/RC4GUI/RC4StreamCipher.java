@@ -6,11 +6,13 @@
 package RC4GUI;
 
 import RC4.RC4;
+import java.awt.Desktop;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -357,29 +359,33 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             rc4 = new RC4(keyByte);
             BufferedWriter writer = new BufferedWriter(new FileWriter(out1));
             byte S[] = rc4.getS();
-            writer.append("Tabel S sesudah permutasi awal : \n");
+            writer.append("Tabel S sesudah permutasi awal : ");
+            writer.newLine();
             for (int i = 0; i < S.length; i++) {
                 writer.append(String.format("%02X ", S[i]));
                 if (i % 10 == 9) {
-                    writer.append("\n");
+                    writer.newLine();
                 }
             }
-            writer.append("\n\n");
+            writer.newLine();
+            writer.newLine();
             byte cipherText[] = rc4.encrypt(plainByte);
             if(status == 0){
-                writer.append("Tabel S sesudah enkripsi: \n");
+                writer.append("Tabel S sesudah enkripsi: ");
+                writer.newLine();
             }else{
-                writer.append("Tabel S sesudah dekripsi : \n");
+                writer.append("Tabel S sesudah dekripsi : ");
+                writer.newLine();
             }
             
             S = rc4.getS();
             for (int i = 0; i < S.length; i++) {
                 writer.append(String.format("%02X ", S[i]));
                 if (i % 10 == 9) {
-                    writer.append("\n");
+                    writer.newLine();
                 }
             }
-            writer.append("\n");
+            writer.newLine();
             writer.flush();
             writer.close();
 
@@ -394,11 +400,31 @@ public class RC4StreamCipher extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(this, "Dekripsi telah selesai", "Finish", JOptionPane.INFORMATION_MESSAGE);
             }
+            openFile(out1);
+            openFile(out2);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    private void openFile(File file) {
+        if (!Desktop.isDesktopSupported()) {
+            System.err.println("Desktop not supported");
+        }
 
+        Desktop desktop = Desktop.getDesktop();
+        if (!desktop.isSupported(Desktop.Action.EDIT)) {
+            System.err.println("EDIT not supported");
+        }
+
+        try {
+            desktop.edit(new File(file.getAbsolutePath()));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel CiphertextLabel;
     private javax.swing.JLabel CopyrightLabelDekripsi;
